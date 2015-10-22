@@ -13,6 +13,9 @@
 		7DD083141BD8BE3C00B8A621 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD083121BD8BE3C00B8A621 /* Main.storyboard */; };
 		7DD083161BD8BE3C00B8A621 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD083151BD8BE3C00B8A621 /* Assets.xcassets */; };
 		7DD083191BD8BE3C00B8A621 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD083171BD8BE3C00B8A621 /* LaunchScreen.storyboard */; };
+		7DD083221BD8BE6200B8A621 /* LXDMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083211BD8BE6200B8A621 /* LXDMenu.m */; settings = {ASSET_TAGS = (); }; };
+		7DD083261BD8CA5900B8A621 /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083251BD8CA5900B8A621 /* UIView+Utils.m */; settings = {ASSET_TAGS = (); }; };
+		7DD083291BD8D0B600B8A621 /* LXDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083281BD8D0B600B8A621 /* LXDMenuItem.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,12 @@
 		7DD083151BD8BE3C00B8A621 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7DD083181BD8BE3C00B8A621 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7DD0831A1BD8BE3C00B8A621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DD083201BD8BE6200B8A621 /* LXDMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDMenu.h; sourceTree = "<group>"; };
+		7DD083211BD8BE6200B8A621 /* LXDMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDMenu.m; sourceTree = "<group>"; };
+		7DD083241BD8CA5900B8A621 /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
+		7DD083251BD8CA5900B8A621 /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
+		7DD083271BD8D0B600B8A621 /* LXDMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDMenuItem.h; sourceTree = "<group>"; };
+		7DD083281BD8D0B600B8A621 /* LXDMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDMenuItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +67,7 @@
 		7DD083081BD8BE3C00B8A621 /* LXD-Menu */ = {
 			isa = PBXGroup;
 			children = (
+				7DD083231BD8BE6C00B8A621 /* LXDMenuView */,
 				7DD0830C1BD8BE3C00B8A621 /* AppDelegate.h */,
 				7DD0830D1BD8BE3C00B8A621 /* AppDelegate.m */,
 				7DD0830F1BD8BE3C00B8A621 /* ViewController.h */,
@@ -77,6 +87,19 @@
 				7DD0830A1BD8BE3C00B8A621 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7DD083231BD8BE6C00B8A621 /* LXDMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				7DD083241BD8CA5900B8A621 /* UIView+Utils.h */,
+				7DD083251BD8CA5900B8A621 /* UIView+Utils.m */,
+				7DD083201BD8BE6200B8A621 /* LXDMenu.h */,
+				7DD083211BD8BE6200B8A621 /* LXDMenu.m */,
+				7DD083271BD8D0B600B8A621 /* LXDMenuItem.h */,
+				7DD083281BD8D0B600B8A621 /* LXDMenuItem.m */,
+			);
+			name = LXDMenuView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +174,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DD083111BD8BE3C00B8A621 /* ViewController.m in Sources */,
+				7DD083221BD8BE6200B8A621 /* LXDMenu.m in Sources */,
 				7DD0830E1BD8BE3C00B8A621 /* AppDelegate.m in Sources */,
+				7DD083261BD8CA5900B8A621 /* UIView+Utils.m in Sources */,
+				7DD083291BD8D0B600B8A621 /* LXDMenuItem.m in Sources */,
 				7DD0830B1BD8BE3C00B8A621 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

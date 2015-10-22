@@ -8,6 +8,11 @@
 
 #import "ViewController.h"
 
+#define lxddebug
+#ifdef lxddebug
+#import "LXDMenuItem.h"
+#endif
+
 @interface ViewController ()
 
 @end
@@ -16,6 +21,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+#ifdef lxddebug
+    LXDMenuItem *item = [LXDMenuItem LXDMenuItemWithTitle:@"ceshi测试呢，这是测试啊" WithFrame:CGRectMake(0, 0, 200, 50)];
+    
+    [self.view addSubview:item];
+#endif
     // Do any additional setup after loading the view, typically from a nib.
 }
 
