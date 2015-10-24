@@ -7,25 +7,40 @@
 //
 #define lxddebug
 #import "LXDMenu.h"
-#import "LXDMenuItem.h"
+#import "LXDMenuHeaderVIew.h"
 
 static const CGFloat defaultHeaderH = 44;
-static const CGFloat mainViewH = 150.0f;
+static const CGFloat mainViewH = 50.0f;
+
+
+@implementation LXDMenuItem
+
+-(LXDMenuItem *)initMenuItemWithTitle:(NSString *)title
+               withCompletionHandler:(void (^)(BOOL))completion;
+{
+    
+    self.title = title;
+    self.completion = completion;
+    return self;
+    
+}
+
+@end
+
+
 
 @interface LXDMenu()
 
-@property (nonatomic, strong) UIView         *headerView;
-@property (nonatomic, strong) UIView         *mainItemView;
-@property (nonatomic, strong) UITableView    *bodyView;
-@property (nonatomic, strong) UIToolbar      *backBLurView;
-@property (nonatomic, strong) UIViewController *contentController;
-@property (nonatomic, assign) CGFloat        headerHeight;
-@property (nonatomic, strong) NSMutableArray *menuItemsStr;
-@property (nonatomic, strong) NSMutableArray<LXDMenuItem *> *menuItems;
+@property (nonatomic, strong) LXDMenuHeaderVIew *headerView;
+@property (nonatomic, strong) UIView            *mainItemView;
+@property (nonatomic, strong) UITableView       *bodyView;
+@property (nonatomic, strong) UIToolbar         *backBLurView;
+@property (nonatomic, strong) UIViewController  *contentController;
+@property (nonatomic, assign) CGFloat           headerHeight;
+@property (nonatomic, strong) UIFont            *menuItemFont;
+@property (nonatomic, strong) NSArray<LXDMenuItem *>   *menuItems;
 
-@property (nonatomic, strong) UIWindow   *myWindow;
-
-@property (nonatomic, assign, getter=isOpened) BOOL opened;
+@property (nonatomic, assign, getter = isOpened) BOOL opened;
 
 @end
 
@@ -66,16 +81,29 @@ static const CGFloat mainViewH = 150.0f;
                         mainItem:(UIView *)mainItem
                 withClickByIndex:(LXDMenuItemClickedBlock)clickhandle {
     
+    UIFont *menuItemFont = [UIFont systemFontOfSize:20];
+ 
+    return  [LXDMenu menuViewWithItem:items forViewController:vc headerHeight:headerHeigt mainItem:mainItem menuItemFont:menuItemFont withClickByIndex:clickhandle];
+}
+
++ (instancetype)menuViewWithItem:(NSArray *)items
+               forViewController:(UIViewController*)vc
+                    headerHeight:(CGFloat)headerHeigt
+                        mainItem:(UIView *)mainItem
+                    menuItemFont:(UIFont*)font
+                withClickByIndex:(LXDMenuItemClickedBlock)clickhandle {
+    
     LXDMenu *menu = [[LXDMenu alloc] initWithFrame:CGRectMake(0, ScreenHeight - mainItem.height, ScreenWidth, ScreenHeight - defaultHeaderH )];
     
-    //menu.backgroundColor = [UIColor colorWithRed:0.087 green:0.977 blue:0.959 alpha:1.000];
     menu.mainItemView = mainItem;
     menu.headerHeight = headerHeigt;
     menu.clickHandle = clickhandle;
     menu.contentController = vc;
-
+    menu.menuItems = items;
+    menu.menuItemFont = font;
     [menu commonInit];
     return  menu;
+
 }
 
 - (void)commonInit {
@@ -87,34 +115,27 @@ static const CGFloat mainViewH = 150.0f;
     
     if ( nil == _mainItemView) {
         _mainItemView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, mainViewH)];
-        
-        //_mainItemView.backgroundColor = [UIColor colorWithRed:1.000 green:0.177 blue:0.070 alpha:1.000];
     }
     [self setFrame:CGRectMake(0, ScreenHeight - _mainItemView.height, ScreenWidth, ScreenHeight - defaultHeaderH )];
-    [_mainItemView setTag:101];
+
     [self addSubview:_mainItemView];
+    
+    _bodyView = [[UITableView alloc] initWithFrame:CGRectMake(0, _mainItemView.height, ScreenWidth, ScreenHeight-_mainItemView.height)];
+    
+    [_bodyView setDelegate:self];
+    [_bodyView setDataSource:self];
+    [_bodyView setShowsVerticalScrollIndicator:NO];
+    [_bodyView setSeparatorColor:[UIColor clearColor]];
+    [_bodyView setAllowsMultipleSelection:NO];
+    [_bodyView setBackgroundColor: [UIColor clearColor]];
+    [self addSubview:_bodyView];
+    _bodyView.backgroundView.backgroundColor = [UIColor clearColor];
+    [_bodyView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     if (0 == _headerHeight) {
         _headerHeight = defaultHeaderH;
     }
     
-    if (nil == _headerView) {
-        _headerView = [LXDMenuItem LXDMenuItemWithTitle:@"ceshi测试呢，这是测试啊" WithFrame:CGRectMake(0, -_headerHeight, ScreenWidth, _headerHeight)];
-        _headerView.backgroundColor = [UIColor colorWithRed:0.153 green:0.419 blue:1.000 alpha:1.000];
-    }
-    
-//    CGRect iFrame = CGRectMake(0, _headerHeight, ScreenWidth, _headerHeight);
-//    self.myWindow = [[UIWindow alloc] initWithFrame:iFrame];
-//    self.myWindow.backgroundColor = [UIColor colorWithRed:0.955 green:0.110 blue:0.122 alpha:1.000];
-//    self.myWindow.userInteractionEnabled = YES;
-//    self.myWindow.windowLevel = UIWindowLevelNormal;
-//    UIViewController *rootViewController = [[UIViewController alloc] init];
-//    
-//    self.myWindow.rootViewController = rootViewController;
-//    self.myWindow.hidden = NO;
-    
-    [_contentController.view insertSubview:_headerView atIndex:INT_MAX];
-
     [self setPanPressAction];
     
 #ifdef lxddebug
@@ -127,19 +148,9 @@ static const CGFloat mainViewH = 150.0f;
     [super layoutSubviews];
 }
 
-- (void)setSwipePressAction {
-    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(_handleActionForSwipPressGesture:)];
-    
-    [self addGestureRecognizer:swipGesture];
-}
-
-- (void)_handleActionForSwipPressGesture:(UISwipeGestureRecognizer *)gesture {
-    
-}
-
 - (void)setPanPressAction {
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handleActionForPanPressGesture:)];
-    
+
     [self addGestureRecognizer:panGesture];
 }
 
@@ -179,13 +190,17 @@ static const CGFloat mainViewH = 150.0f;
     }
 }
 
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
+- (void)createHeaderWindow {
+    if (nil == _headerView) {
+        _headerView = [LXDMenuHeaderVIew LXDMenuItemWithTitle:@"ceshi测试呢，这是测试啊" WithFrame:CGRectMake(0, -_headerHeight, ScreenWidth, _headerHeight)];
+        _headerView.windowLevel = UIWindowLevelAlert;
+        //_headerView.backgroundColor = [UIColor clearColor];
+        [_headerView setHidden:NO];
+    }
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self createHeaderWindow];
 }
 
 - (void)openMenuWithVelocity:(CGFloat)velocity {
@@ -210,5 +225,58 @@ static const CGFloat mainViewH = 150.0f;
                      }
                      completion:^(BOOL completed){}];
 }
+- (void)closeMenuWithCallBack:(void (^)(BOOL ))callBack {
+    [UIView animateWithDuration:.3
+                     animations:^{
+                         self.center = CGPointMake(ScreenWidth/2, ScreenHeight + self.height/2 - _mainItemView.height);
+                         _headerView.center =CGPointMake(ScreenWidth/2, -_headerHeight);
+                     
+                     }
+                     completion:^(BOOL finshed){
+                         if (finshed && callBack) {
+                             callBack(finshed);
+                         }
+    }];
+}
+
+#pragma-mark <uitabledatasource>
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return [self.menuItems count];
+    
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (nil == cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        //[self setMenuTitleAlligmentForCell:cell];
+
+        //cell.textLabel.textColor = self.textColor;
+        //[cell.textLabel setFont:self.titleFont];
+    }
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (nil != _menuItems) {
+        cell.textLabel.text = [_menuItems objectAtIndex: indexPath.row].title;
+        cell.textLabel.textColor = [UIColor colorWithRed:( arc4random() % 256 / 256.0 ) green:( arc4random() % 256 / 256.0 ) blue:( arc4random() % 256 / 256.0 ) alpha:1.0f ];
+    }
+    return cell;
+}
+
+
+#pragma-mark uitabledelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if (nil == _menuItems) {
+        return;
+    }
+    [self closeMenuWithCallBack:[_menuItems objectAtIndex: indexPath.row].completion];
+    
+}
+
+
 
 @end

@@ -11,7 +11,7 @@
 
 #define lxddebug
 #ifdef lxddebug
-#import "LXDMenuItem.h"
+#import "LXDMenuHeaderVIew.h"
 #endif
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -30,10 +30,36 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    
     [self.view addSubview:_tableView];
     
-    LXDMenu *menu  = [LXDMenu menuViewWithItem:@[@"ceshi"] forViewController:self];
+    
+    _displayLabel = [[UILabel alloc ] initWithFrame:CGRectMake(ScreenWidth/2 - 100, ScreenHeight/2, 200, 50)];
+    _displayLabel.textColor = [UIColor colorWithRed:0.8 green:0.4 blue:0.7 alpha:1];
+    _displayLabel.font = [UIFont systemFontOfSize:50 weight:20];
+    _displayLabel.text = @"default";
+    [self.view addSubview:_displayLabel];
+    
+    UIView *mainview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 88)];
+    mainview.backgroundColor = [UIColor clearColor];
+    
+    __weak ViewController *this = self;
+    
+    LXDMenuItem *first = [[LXDMenuItem alloc] initMenuItemWithTitle:@"测试啊" withCompletionHandler:^(BOOL flag){
+        
+        this.displayLabel.text = @"first";
+        NSLog(@"first") ;
+    }];
+    LXDMenuItem *second = [[LXDMenuItem alloc] initMenuItemWithTitle:@"测试啊222" withCompletionHandler:^(BOOL flag){
+       this.displayLabel.text = @"second";
+        NSLog(@"second") ;
+    }];
+    
+    LXDMenuItem *three = [[LXDMenuItem alloc] initMenuItemWithTitle:@"测试啊22adsf2" withCompletionHandler:^(BOOL flag){
+        this.displayLabel.text = @"three";
+        NSLog(@"three") ;
+    }];
+    
+    LXDMenu *menu  = [LXDMenu menuViewWithItem:@[first,second,three] forViewController:self headerHeight:0 mainItem:mainview withClickByIndex:nil];
     
     [self.view addSubview:menu];
     
@@ -52,16 +78,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 120.f;
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    CGFloat hue = ( arc4random() % 256 / 256.0 ); //0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0,away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5; //0.5 to 1.0,away from black
     
-    cell.backgroundColor = [UIColor colorWithRed:0.12 * indexPath.row green:0.8 blue:0.9 alpha:1.0];
+    cell.backgroundColor = [UIColor colorWithRed:brightness green:saturation blue:hue alpha:0.8];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"PlaceHolder Text : %ld",(long)indexPath.row];
     return cell;
 }
 

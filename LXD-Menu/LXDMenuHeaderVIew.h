@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UIView+Utils.h"
 
-@interface LXDMenuItem : UIView
+@interface LXDMenuHeaderVIew : UIWindow
 
-@property(nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UILabel  * titleLabel;
 
 +(instancetype)LXDMenuItemWithTitle:(NSString*)title;
 +(instancetype)LXDMenuItemWithTitle:(NSString*)title WithFrame:(CGRect)frame;

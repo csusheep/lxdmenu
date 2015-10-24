@@ -6,23 +6,29 @@
 //  Copyright © 2015年 刘 晓东. All rights reserved.
 //
 
-#import "LXDMenuItem.h"
+#import "LXDMenuHeaderVIew.h"
 
 #define ScreenHeight [[UIScreen mainScreen] bounds].size.height
 #define ScreenWidth [[UIScreen mainScreen] bounds].size.width
 
-@implementation LXDMenuItem
+@interface LXDMenuHeaderVIew()
+
+@property (nonatomic, strong) UIToolbar   *backBLurView;
+
+@end
+
+@implementation LXDMenuHeaderVIew
 
 +(instancetype)LXDMenuItemWithTitle:(NSString*)title {
     
     
     CGRect rect = CGRectMake(0,0,ScreenWidth,50);
-    return [LXDMenuItem LXDMenuItemWithTitle:title WithFrame:rect];
+    return [LXDMenuHeaderVIew LXDMenuItemWithTitle:title WithFrame:rect];
 }
 
 +(instancetype)LXDMenuItemWithTitle:(NSString*)title WithFrame:(CGRect)frame {
     
-    LXDMenuItem *item = [[LXDMenuItem alloc] initWithFrame:frame];
+    LXDMenuHeaderVIew *item = [[LXDMenuHeaderVIew alloc] initWithFrame:frame];
     
     item.titleLabel.text = title;
     [item setNeedsLayout];
@@ -46,32 +52,33 @@
 }
 
 -(void)commonInit{
+    
+    _backBLurView          = [[UIToolbar alloc] init];
+    _backBLurView.barStyle = UIBarStyleDefault;
+    [self addSubview:_backBLurView];
+    
     if (nil == _titleLabel) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.width/2, self.height/2, self.width/2, self.height/3)];
+        _titleLabel               = [[UILabel alloc] initWithFrame:CGRectMake(0, self.height/2, self.width, self.height/3)];
         _titleLabel.textAlignment = NSTextAlignmentRight;
-        _titleLabel.font = [UIFont systemFontOfSize:18];
+        _titleLabel.font          = [UIFont systemFontOfSize:18];
     }
     [self addSubview:_titleLabel];
+
 }
 
 -(void)layoutSubviews {
-    [super layoutSubviews];
-    CGSize size = CGSizeMake(MAXFLOAT, _titleLabel.height);
-    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:_titleLabel.font, NSFontAttributeName,nil];
-    size =[_titleLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:tdic context:nil].size;
-    NSLog(@"size.width=%f, size.height=%f", size.width, size.height);
-    //根据计算结果重新设置UILabel的尺寸
-    [_titleLabel setFrame:CGRectMake(self.width/2, self.height/2, size.width, self.height/3)];
     
+    [super layoutSubviews];
+    _backBLurView.frame = self.bounds;
+    CGSize size         = CGSizeMake(MAXFLOAT, _titleLabel.height);
+    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:_titleLabel.font, NSFontAttributeName,nil];
+    size = [_titleLabel.text
+           boundingRectWithSize:size
+           options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading
+           attributes:tdic
+           context:nil].size;
+    //根据计算结果重新设置UILabel的尺寸
+    //[_titleLabel setFrame:CGRectMake(0, self.height/2, size.width, self.height/3)];
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
-
 
 @end
