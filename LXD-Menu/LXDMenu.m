@@ -8,9 +8,12 @@
 #define lxddebug
 #import "LXDMenu.h"
 #import "LXDMenuHeaderVIew.h"
+#import "LXDUIArrow.h"
 
 static const CGFloat defaultHeaderH = 44;
 static const CGFloat mainViewH = 50.0f;
+static const CGFloat arrowStartDegree = 180.f;
+static const CGFloat arrowEndDegree = 150.f;
 
 
 @implementation LXDMenuItem
@@ -39,6 +42,8 @@ static const CGFloat mainViewH = 50.0f;
 @property (nonatomic, assign) CGFloat           headerHeight;
 @property (nonatomic, strong) UIFont            *menuItemFont;
 @property (nonatomic, strong) NSArray<LXDMenuItem *>   *menuItems;
+@property (nonatomic, strong) LXDUIArrow        *arrow;
+
 
 @property (nonatomic, assign, getter = isOpened) BOOL opened;
 
@@ -136,6 +141,10 @@ static const CGFloat mainViewH = 50.0f;
         _headerHeight = defaultHeaderH;
     }
     
+    _arrow = [LXDUIArrow arrowWithFrame:CGRectMake(ScreenWidth/2 - 25, 0, 50, 30)];
+    _arrow.degree = arrowStartDegree;
+    [self addSubview:_arrow];
+    
     [self setPanPressAction];
     
 #ifdef lxddebug
@@ -169,7 +178,7 @@ static const CGFloat mainViewH = 50.0f;
                 CGFloat b = (ScreenHeight - _headerHeight -_mainItemView.height);
 
                  _headerView.frame  = CGRectMake(0, _headerView.height*(b-a)/b - _headerView.height, _headerView.width, _headerView.height);
-                //_myWindow.frame  = CGRectMake(0, _myWindow.height*(b-a)/b - _myWindow.height, _myWindow.width, _myWindow.height);
+                 _arrow.degree = arrowStartDegree - (arrowStartDegree - arrowEndDegree)*((b-a)/b);
                 [gesture setTranslation:CGPointZero inView:self];
             }
         }
@@ -192,7 +201,7 @@ static const CGFloat mainViewH = 50.0f;
 
 - (void)createHeaderWindow {
     if (nil == _headerView) {
-        _headerView = [LXDMenuHeaderVIew LXDMenuItemWithTitle:@"ceshi测试呢，这是测试啊" WithFrame:CGRectMake(0, -_headerHeight, ScreenWidth, _headerHeight)];
+        _headerView = [LXDMenuHeaderVIew LXDMenuItemWithTitle:@"做某某事情的菜单标题" WithFrame:CGRectMake(0, -_headerHeight, ScreenWidth, _headerHeight)];
         _headerView.windowLevel = UIWindowLevelAlert;
         //_headerView.backgroundColor = [UIColor clearColor];
         [_headerView setHidden:NO];
@@ -209,7 +218,7 @@ static const CGFloat mainViewH = 50.0f;
                      animations: ^{
                          self.center = CGPointMake(ScreenWidth/2, _headerHeight + self.height/2);
                          _headerView.center =CGPointMake(ScreenWidth/2, _headerHeight/2);
-                         //_myWindow.center =CGPointMake(ScreenWidth/2, _headerHeight/2);
+                         _arrow.degree = arrowEndDegree;
                      }
                      completion:^(BOOL completed){}];
 }
@@ -220,7 +229,7 @@ static const CGFloat mainViewH = 50.0f;
                      animations: ^{
                          self.center = CGPointMake(ScreenWidth/2, ScreenHeight + self.height/2 - _mainItemView.height);
                          _headerView.center =CGPointMake(ScreenWidth/2, -_headerHeight);
-                         //_myWindow.center =CGPointMake(ScreenWidth/2, -_headerHeight);
+                         _arrow.degree = arrowStartDegree;
 
                      }
                      completion:^(BOOL completed){}];
@@ -230,7 +239,7 @@ static const CGFloat mainViewH = 50.0f;
                      animations:^{
                          self.center = CGPointMake(ScreenWidth/2, ScreenHeight + self.height/2 - _mainItemView.height);
                          _headerView.center =CGPointMake(ScreenWidth/2, -_headerHeight);
-                     
+                         _arrow.degree = arrowStartDegree;
                      }
                      completion:^(BOOL finshed){
                          if (finshed && callBack) {
