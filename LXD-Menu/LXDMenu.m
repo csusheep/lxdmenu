@@ -21,16 +21,12 @@ static const CGFloat arrowEndDegree = 150.f;
 -(LXDMenuItem *)initMenuItemWithTitle:(NSString *)title
                withCompletionHandler:(void (^)(BOOL))completion;
 {
-    
     self.title = title;
     self.completion = completion;
     return self;
-    
 }
 
 @end
-
-
 
 @interface LXDMenu()
 
@@ -41,8 +37,8 @@ static const CGFloat arrowEndDegree = 150.f;
 @property (nonatomic, strong) UIViewController  *contentController;
 @property (nonatomic, assign) CGFloat           headerHeight;
 @property (nonatomic, strong) UIFont            *menuItemFont;
-@property (nonatomic, strong) NSArray<LXDMenuItem *>   *menuItems;
 @property (nonatomic, strong) LXDUIArrow        *arrow;
+@property (nonatomic, strong) NSArray<LXDMenuItem *>   *menuItems;
 
 
 @property (nonatomic, assign, getter = isOpened) BOOL opened;
@@ -256,17 +252,12 @@ static const CGFloat arrowEndDegree = 150.f;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return [self.menuItems count];
-    
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-        //[self setMenuTitleAlligmentForCell:cell];
-
-        //cell.textLabel.textColor = self.textColor;
-        //[cell.textLabel setFont:self.titleFont];
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -280,7 +271,6 @@ static const CGFloat arrowEndDegree = 150.f;
 
 #pragma-mark uitabledelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     
     if (nil == _menuItems) {
         return;

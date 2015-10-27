@@ -21,7 +21,6 @@
 
 +(instancetype)LXDMenuItemWithTitle:(NSString*)title {
     
-    
     CGRect rect = CGRectMake(0,0,ScreenWidth,50);
     return [LXDMenuHeaderVIew LXDMenuItemWithTitle:title WithFrame:rect];
 }
