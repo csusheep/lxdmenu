@@ -220,7 +220,10 @@ static const CGFloat arrowEndDegree = 150.f;
                          _headerView.center =CGPointMake(ScreenWidth/2, _headerHeight/2);
                          _arrow.degree = arrowEndDegree;
                      }
-                     completion:^(BOOL completed){}];
+                     completion:^(BOOL completed){
+                         [_arrow shine];
+                         
+                    }];
 }
 
 - (void)closeMenuWithVelocity:(CGFloat)velocity {

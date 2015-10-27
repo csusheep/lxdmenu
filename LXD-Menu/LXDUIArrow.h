@@ -29,4 +29,6 @@
                        weight:(CGFloat)weight
                        degree:(CGFloat)degree;
 
+- (void)shine;
+
 @end

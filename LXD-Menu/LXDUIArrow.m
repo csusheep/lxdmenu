@@ -13,7 +13,7 @@
 
 static const CGFloat WEIGHT = 7.f;
 static const CGFloat DEFAULTDEGREE = 150.0f;
-static const CGFloat MARGIN = 8.0f;
+static const CGFloat MARGIN = 10.0f;
 
 
 @interface LXDUIArrow()
@@ -21,26 +21,30 @@ static const CGFloat MARGIN = 8.0f;
 @property(nonatomic, assign) CGPoint startPoint;
 @property(nonatomic, assign) CGPoint endPoint;
 @property(nonatomic, assign) CGPoint cornerPoint;
+@property(nonatomic, strong) CADisplayLink *displaylink;
+@property(nonatomic, assign) CFTimeInterval shineDuration;
+@property(nonatomic, assign) CFTimeInterval beginTime;
+@property(nonatomic, assign) CFTimeInterval endTime;
 
 @end
 
 @implementation LXDUIArrow
 
 +(instancetype)arrowWithFrame:(CGRect) frame {
-    UIColor * color = [UIColor grayColor];
-    return [LXDUIArrow arrowWithFrame:frame color:color];
+
+    return [LXDUIArrow arrowWithFrame:frame color:nil];
 }
 
 +(instancetype)arrowWithFrame:(CGRect) frame
                         color:(UIColor *)color{
-    return [LXDUIArrow arrowWithFrame:frame color:color weight:WEIGHT];
+    return [LXDUIArrow arrowWithFrame:frame color:color weight:0];
 }
 
 +(instancetype)arrowWithFrame:(CGRect) frame
                         color:(UIColor *)color
                        weight:(CGFloat)weight{
     
-    return [LXDUIArrow arrowWithFrame:frame color:color weight:weight degree:DEFAULTDEGREE];
+    return [LXDUIArrow arrowWithFrame:frame color:color weight:weight degree:0];
 }
 
 +(instancetype)arrowWithFrame:(CGRect) frame
@@ -48,9 +52,9 @@ static const CGFloat MARGIN = 8.0f;
                        weight:(CGFloat)weight
                        degree:(CGFloat)degree{
     LXDUIArrow *arrow = [[LXDUIArrow alloc] initWithFrame:frame];
-    arrow.arrowColor = color;
-    arrow.weight = weight;
-    arrow.degree = degree;
+    arrow.arrowColor  = color;
+    arrow.weight      = weight;
+    arrow.degree      = degree;
     [arrow commonInit];
     return arrow;
 }
@@ -68,7 +72,7 @@ static const CGFloat MARGIN = 8.0f;
 
 - (void)commonInit {
     if (nil == _arrowColor) {
-        _arrowColor = [UIColor grayColor];
+        _arrowColor = [UIColor colorWithRed:150/255.0 green:156/225.0 blue:144/225.0 alpha:1];
     }
     if (!_weight) {
         _weight = WEIGHT;
@@ -76,19 +80,52 @@ static const CGFloat MARGIN = 8.0f;
     if (!_degree) {
         _degree = DEFAULTDEGREE;
     }
+    
+    _shineDuration = .3f;
 
+    _displaylink        = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateArrowColor)];
+    _displaylink.paused = YES;
+    [_displaylink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+}
+
+- (void)shine {
+    [self animationWithDuration:_shineDuration];
+}
+
+- (void)animationWithDuration:(CFTimeInterval)duration {
+    _beginTime = CACurrentMediaTime();
+    _endTime = _beginTime + _shineDuration;
+    _displaylink.paused = NO;
+}
+
+- (void)updateArrowColor {
+    
+    CFTimeInterval now = CACurrentMediaTime();
+    CGFloat percentage = ( now - _beginTime ) / _shineDuration;
+    if ( now < ( _endTime - _beginTime ) / 2 + _beginTime ) {
+        percentage = 1 - percentage;
+    }
+    [self setArrowColor:[_arrowColor colorWithAlphaComponent:percentage]];
+    if (now > _endTime) {
+
+        _displaylink.paused = YES;
+        
+    }
 }
 
 - (void)setDegree:(CGFloat)degree {
     if (_degree != degree) {
         _degree = degree;
-
         CGFloat dc = ( (_endPoint.x - _startPoint.x) / 2 ) * sin(DEGREES_TO_RADIANS(90 - _degree/2)) / sin(DEGREES_TO_RADIANS(_degree/2));
-        
         CGFloat x = (_endPoint.x - _startPoint.x) / 2 + _startPoint.x;
         CGFloat y = _startPoint.x + dc;
         _cornerPoint = CGPointMake(x, y);
     }
+    [self setNeedsDisplay];
+}
+
+- (void)setArrowColor:(UIColor *)arrowColor {
+    _arrowColor = arrowColor;
     [self setNeedsDisplay];
 }
 
@@ -99,33 +136,36 @@ static const CGFloat MARGIN = 8.0f;
     CGContextSaveGState(context);
     CGContextBeginPath(context);
     
-    CGContextSetLineWidth(context, WEIGHT);
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
-    CGContextMoveToPoint(context, _startPoint.x, _startPoint.y);
-    CGContextAddLineToPoint(context, _cornerPoint.x, _cornerPoint.y);
-    CGContextAddLineToPoint(context, _endPoint.x, _endPoint.y);
-    CGContextStrokePath(context);
+    CGContextSetLineWidth(context, _weight);
+    CGContextSetStrokeColorWithColor(context, _arrowColor.CGColor);
     
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
-    CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetStrokeColorWithColor(context, _arrowColor.CGColor);
+    CGContextSetFillColorWithColor(context, _arrowColor.CGColor);
+    CGContextSetBlendMode(context, kCGBlendModeLuminosity);
+    CGContextSetLineWidth(context, .1);
     // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
-    CGContextAddArc(context, _startPoint.x, _startPoint.y, WEIGHT/2, 0, 2*M_PI, 0);
-    CGContextAddArc(context, _endPoint.x, _endPoint.y, WEIGHT/2, 0, 2*M_PI, 0);
+    CGContextAddArc(context, _startPoint.x, _startPoint.y , _weight/2, DEGREES_TO_RADIANS(180 - (_degree/2)), DEGREES_TO_RADIANS(360-_degree/2), 0);
+
+    CGFloat a = _weight/2 * sin(DEGREES_TO_RADIANS(_degree/2)) / sin(DEGREES_TO_RADIANS(90));
+    CGFloat b = _weight/2 * sin(DEGREES_TO_RADIANS(90 - _degree/2)) / sin(DEGREES_TO_RADIANS(90));
+
+    CGContextMoveToPoint(context, _startPoint.x + b, _startPoint.y - a);
+    CGContextAddLineToPoint(context, _cornerPoint.x, _cornerPoint.y - _weight/2);
+    CGContextAddLineToPoint(context, _endPoint.x - b, _endPoint.y - a);
+    CGContextAddLineToPoint(context, _endPoint.x + b, _endPoint.y + a);
+    CGContextAddArc(context, _endPoint.x, _endPoint.y, _weight/2, DEGREES_TO_RADIANS(180 + (_degree/2)), DEGREES_TO_RADIANS(_degree/2), 0);
+    CGContextAddLineToPoint(context, _cornerPoint.x, _cornerPoint.y + _weight/2);
+    CGContextAddLineToPoint(context, _startPoint.x - b, _startPoint.y + a);
+    CGContextAddLineToPoint(context, _startPoint.x + b, _startPoint.y - a);
     CGContextFillPath(context);
     
     CGContextRestoreGState(context);
-    
-    
-    // Drawing code
 }
 
-
+ // 不响应用户事件
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
-    // 本View不响应用户事件
     return NO;
-    
 }
 
 @end
