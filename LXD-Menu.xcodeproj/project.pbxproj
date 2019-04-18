@@ -7,19 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1821053E22685C5000E44876 /* LXDMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821053622685C4F00E44876 /* LXDMenu.m */; };
+		1821053F22685C5000E44876 /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821053722685C4F00E44876 /* UIView+Utils.m */; };
+		1821054022685C5000E44876 /* LXDMenuHeaderVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821053A22685C5000E44876 /* LXDMenuHeaderVIew.m */; };
+		1821054122685C5000E44876 /* LXDUIArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821053B22685C5000E44876 /* LXDUIArrow.m */; };
 		7D5C34A81BDA7DA20053D1D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D5C34A61BDA7DA20053D1D6 /* Main.storyboard */; };
 		7DD0830B1BD8BE3C00B8A621 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0830A1BD8BE3C00B8A621 /* main.m */; };
 		7DD0830E1BD8BE3C00B8A621 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0830D1BD8BE3C00B8A621 /* AppDelegate.m */; };
 		7DD083111BD8BE3C00B8A621 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083101BD8BE3C00B8A621 /* ViewController.m */; };
 		7DD083161BD8BE3C00B8A621 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD083151BD8BE3C00B8A621 /* Assets.xcassets */; };
 		7DD083191BD8BE3C00B8A621 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD083171BD8BE3C00B8A621 /* LaunchScreen.storyboard */; };
-		7DD083221BD8BE6200B8A621 /* LXDMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083211BD8BE6200B8A621 /* LXDMenu.m */; };
-		7DD083261BD8CA5900B8A621 /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083251BD8CA5900B8A621 /* UIView+Utils.m */; };
-		7DD083291BD8D0B600B8A621 /* LXDMenuHeaderVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD083281BD8D0B600B8A621 /* LXDMenuHeaderVIew.m */; };
-		7DEFB2D61BDDF6E500996713 /* LXDUIArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEFB2D51BDDF6E500996713 /* LXDUIArrow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1821053622685C4F00E44876 /* LXDMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LXDMenu.m; path = LXDMenu/LXDMenu.m; sourceTree = "<group>"; };
+		1821053722685C4F00E44876 /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Utils.m"; path = "LXDMenu/UIView+Utils.m"; sourceTree = "<group>"; };
+		1821053822685C4F00E44876 /* LXDUIArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LXDUIArrow.h; path = LXDMenu/LXDUIArrow.h; sourceTree = "<group>"; };
+		1821053922685C4F00E44876 /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Utils.h"; path = "LXDMenu/UIView+Utils.h"; sourceTree = "<group>"; };
+		1821053A22685C5000E44876 /* LXDMenuHeaderVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LXDMenuHeaderVIew.m; path = LXDMenu/LXDMenuHeaderVIew.m; sourceTree = "<group>"; };
+		1821053B22685C5000E44876 /* LXDUIArrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LXDUIArrow.m; path = LXDMenu/LXDUIArrow.m; sourceTree = "<group>"; };
+		1821053C22685C5000E44876 /* LXDMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LXDMenu.h; path = LXDMenu/LXDMenu.h; sourceTree = "<group>"; };
+		1821053D22685C5000E44876 /* LXDMenuHeaderVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LXDMenuHeaderVIew.h; path = LXDMenu/LXDMenuHeaderVIew.h; sourceTree = "<group>"; };
 		7D5C34A71BDA7DA20053D1D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7DD083061BD8BE3C00B8A621 /* LXD-Menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LXD-Menu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD0830A1BD8BE3C00B8A621 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -30,14 +38,6 @@
 		7DD083151BD8BE3C00B8A621 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7DD083181BD8BE3C00B8A621 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7DD0831A1BD8BE3C00B8A621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7DD083201BD8BE6200B8A621 /* LXDMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDMenu.h; sourceTree = "<group>"; };
-		7DD083211BD8BE6200B8A621 /* LXDMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDMenu.m; sourceTree = "<group>"; };
-		7DD083241BD8CA5900B8A621 /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
-		7DD083251BD8CA5900B8A621 /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
-		7DD083271BD8D0B600B8A621 /* LXDMenuHeaderVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDMenuHeaderVIew.h; sourceTree = "<group>"; };
-		7DD083281BD8D0B600B8A621 /* LXDMenuHeaderVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDMenuHeaderVIew.m; sourceTree = "<group>"; };
-		7DEFB2D41BDDF6E500996713 /* LXDUIArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDUIArrow.h; sourceTree = "<group>"; };
-		7DEFB2D51BDDF6E500996713 /* LXDUIArrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDUIArrow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,14 +95,14 @@
 		7DD083231BD8BE6C00B8A621 /* LXDMenuView */ = {
 			isa = PBXGroup;
 			children = (
-				7DD083241BD8CA5900B8A621 /* UIView+Utils.h */,
-				7DD083251BD8CA5900B8A621 /* UIView+Utils.m */,
-				7DD083201BD8BE6200B8A621 /* LXDMenu.h */,
-				7DD083211BD8BE6200B8A621 /* LXDMenu.m */,
-				7DD083271BD8D0B600B8A621 /* LXDMenuHeaderVIew.h */,
-				7DD083281BD8D0B600B8A621 /* LXDMenuHeaderVIew.m */,
-				7DEFB2D41BDDF6E500996713 /* LXDUIArrow.h */,
-				7DEFB2D51BDDF6E500996713 /* LXDUIArrow.m */,
+				1821053C22685C5000E44876 /* LXDMenu.h */,
+				1821053622685C4F00E44876 /* LXDMenu.m */,
+				1821053D22685C5000E44876 /* LXDMenuHeaderVIew.h */,
+				1821053A22685C5000E44876 /* LXDMenuHeaderVIew.m */,
+				1821053822685C4F00E44876 /* LXDUIArrow.h */,
+				1821053B22685C5000E44876 /* LXDUIArrow.m */,
+				1821053922685C4F00E44876 /* UIView+Utils.h */,
+				1821053722685C4F00E44876 /* UIView+Utils.m */,
 			);
 			name = LXDMenuView;
 			sourceTree = "<group>";
@@ -138,7 +138,6 @@
 				TargetAttributes = {
 					7DD083051BD8BE3C00B8A621 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = K5339Z7WB8;
 					};
 				};
 			};
@@ -147,6 +146,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -179,11 +179,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DD083111BD8BE3C00B8A621 /* ViewController.m in Sources */,
-				7DD083221BD8BE6200B8A621 /* LXDMenu.m in Sources */,
+				1821053E22685C5000E44876 /* LXDMenu.m in Sources */,
 				7DD0830E1BD8BE3C00B8A621 /* AppDelegate.m in Sources */,
-				7DD083261BD8CA5900B8A621 /* UIView+Utils.m in Sources */,
-				7DD083291BD8D0B600B8A621 /* LXDMenuHeaderVIew.m in Sources */,
-				7DEFB2D61BDDF6E500996713 /* LXDUIArrow.m in Sources */,
+				1821054022685C5000E44876 /* LXDMenuHeaderVIew.m in Sources */,
+				1821053F22685C5000E44876 /* UIView+Utils.m in Sources */,
+				1821054122685C5000E44876 /* LXDUIArrow.m in Sources */,
 				7DD0830B1BD8BE3C00B8A621 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +294,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "LXD-Menu/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.csusheep.LXD-Menu";
@@ -305,6 +306,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "LXD-Menu/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.csusheep.LXD-Menu";
